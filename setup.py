@@ -20,7 +20,7 @@ def get_requirement(file_path: str) -> List[str]:
 
 
 setup(
-    name='customer-chrun',
+    name='customer_chrun',
     version='0.0.1',
     author='Amit kumar',
     author_email='amitk253154@gmail.com',
