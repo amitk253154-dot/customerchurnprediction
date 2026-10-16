@@ -221,3 +221,4 @@ __marimo__/
 ven/
 .env 
 customer_chrun.egg-info/
+artifacts/
