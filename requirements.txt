@@ -1,11 +1,16 @@
+flask
 pandas
 numpy
-scikit-learn
-xgboost
-lightgbm
-shap
 matplotlib
 seaborn
+scikit-learn
+scipy
+statsmodels
+xgboost
+lightgbm
 optuna
-flask
+shap
+ipykernel
+jupyter
+ 
 -e .
