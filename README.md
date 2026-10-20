@@ -72,9 +72,9 @@ customerchurnprediction/
 │   ├── components/
 │   │   ├── data_ingestion.py       read CSV, stratified train/test split
 │   │   ├── data_transformation.py  cleaning + preprocessor
-│   │   └── model_trainer.py        models, Optuna tuning, threshold, evaluation
+│   │   └── model_tranier.py        models, Optuna tuning, threshold, evaluation
 │   ├── pipelines/
-│   │   ├── train_pipeline.py       runs the full training flow
+│   │   ├── training_pipeline.py       runs the full training flow
 │   │   └── prediction_pipeline.py  loads the saved model and predicts
 │   ├── exception.py
 │   ├── logger.py
