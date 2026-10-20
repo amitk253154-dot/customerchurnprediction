@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Batch prediction{% endblock %}
+{% block content %}
+<p>Upload a CSV with the same columns as the Telco dataset (<code>customerID</code> and <code>Churn</code> are optional), or try the saved test split or one random real customer.</p>
+
+<div class="row">
+  <form method="post" enctype="multipart/form-data" class="row">
+    <input type="file" name="file" accept=".csv">
+    <button type="submit">Predict from file</button>
+  </form>
+  <form method="post" class="row">
+    <button type="submit" name="mode" value="sample" class="secondary">Try the sample data</button>
+    <button type="submit" name="mode" value="churner" class="red">Random churner</button>
+    <button type="submit" name="mode" value="stayed" class="green">Random non-churner</button>
+  </form>
+</div>
+
+{% if error %}<div class="err">{{ error }}</div>{% endif %}
+
+{% if summary %}
+<div class="cards">
+  <div class="card">Customers scored<b>{{ summary.total }}</b></div>
+  <div class="card">Flagged as likely to churn<b>{{ summary.flagged }} ({{ summary.flagged_pct }}%)</b></div>
+  {% if summary.actual_churners is defined and summary.actual_churners > 0 %}
+  <div class="card">Actual churners caught<b>{{ summary.caught }} of {{ summary.actual_churners }}</b></div>
+  {% endif %}
+</div>
+<div class="row">
+  <a class="btn" href="{{ url_for('download') }}">Download all results (CSV)</a>
+  <span class="note">Showing the {{ summary.shown }} highest-risk customers out of {{ summary.total }}.</span>
+</div>
+
+<div class="tablewrap">
+<table>
+  <thead><tr>{% for c in columns %}<th>{{ c }}</th>{% endfor %}</tr></thead>
+  <tbody>
+  {% for row in rows %}
+    <tr class="{{ 'flag' if row[5] == 'Likely to churn' else '' }}">{% for v in row %}<td>{{ v }}</td>{% endfor %}</tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+<div class="note">Risk scores come from a class-weighted model, so they rank customers rather than give exact probabilities.</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Telco Churn Predictor{% endblock %}</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f4f6f8; margin: 0; color: #222; }
+  .wrap { max-width: 960px; margin: 30px auto; background: #fff; padding: 28px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  h1 { margin-top: 0; }
+  nav { margin-bottom: 20px; border-bottom: 1px solid #e3e6ea; padding-bottom: 10px; }
+  nav a { margin-right: 18px; text-decoration: none; color: #555; font-weight: bold; }
+  nav a.active { color: #de2d26; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+  label { display: flex; flex-direction: column; font-size: 14px; gap: 4px; }
+  select, input { padding: 8px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+  button, .btn { display: inline-block; margin-top: 16px; padding: 11px 22px; background: #de2d26; color: #fff; border: 0; border-radius: 6px; font-size: 15px; cursor: pointer; text-decoration: none; }
+  .btn.secondary, button.secondary { background: #555; }
+  button.red { background: #dc2626; }
+  button.green { background: #16a34a; }
+  .res { margin-top: 22px; padding: 16px; border-radius: 8px; font-size: 18px; }
+  .hi { background: #fde8e7; border: 1px solid #de2d26; }
+  .lo { background: #e8f5e9; border: 1px solid #2e7d32; }
+  .warn { margin: 0 0 18px; padding: 12px; background: #fef3c7; color: #92400e; border-radius: 6px; }
+  .err { margin-top: 22px; padding: 14px; background: #fff3cd; border-radius: 8px; }
+  .note { font-size: 12px; color: #666; margin-top: 6px; }
+  .cards { display: flex; gap: 14px; flex-wrap: wrap; margin: 20px 0 10px; }
+  .card { flex: 1; min-width: 150px; background: #f4f6f8; border-radius: 8px; padding: 14px; }
+  .card b { display: block; font-size: 24px; }
+  .tablewrap { overflow-x: auto; margin-top: 14px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { padding: 8px 10px; border-bottom: 1px solid #e3e6ea; text-align: left; white-space: nowrap; }
+  th { background: #f4f6f8; position: sticky; top: 0; }
+  tr.flag td { background: #fff5f4; }
+  .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Telco Customer Churn Predictor</h1>
+  <nav>
+    <a href="{{ url_for('index') }}" class="{{ 'active' if request.endpoint == 'index' else '' }}">Single customer</a>
+    <a href="{{ url_for('batch') }}" class="{{ 'active' if request.endpoint == 'batch' else '' }}">Batch (CSV)</a>
+  </nav>
+  {% if not model_ready %}
+  <p class="warn">Model not found. Run <code>python -m src.customer_chrun.pipelines.train_pipeline</code> first.</p>
+  {% endif %}
+  {% block content %}{% endblock %}
+</div>
+</body>
+</html>

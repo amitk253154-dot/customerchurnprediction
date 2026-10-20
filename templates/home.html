@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<p>Enter the customer details and click Predict.</p>
+
+<form method="post">
+  <div class="grid">
+    {% for name, (label, options) in choices.items() %}
+    <label>{{ label }}
+      <select name="{{ name }}">
+        {% for opt in options %}
+          {% set value = opt[0] if opt is not string else opt %}
+          {% set text = opt[1] if opt is not string else opt %}
+          <option value="{{ value }}" {{ 'selected' if form.get(name) == value else '' }}>{{ text }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    {% endfor %}
+
+    <label>Tenure (months)
+      <input type="number" name="tenure" min="0" value="{{ form.get('tenure', '12') }}" required>
+    </label>
+    <label>Monthly charges
+      <input type="number" name="MonthlyCharges" step="0.01" min="0" value="{{ form.get('MonthlyCharges', '70') }}" required>
+    </label>
+    <label>Total charges (optional)
+      <input type="number" name="TotalCharges" step="0.01" min="0" value="{{ form.get('TotalCharges', '') }}" placeholder="blank = tenure x monthly">
+    </label>
+  </div>
+  <button type="submit">Predict</button>
+</form>
+
+{% if result %}
+<div class="res {{ 'hi' if result.churn else 'lo' }}">
+  <b>{{ 'Likely to churn' if result.churn else 'Unlikely to churn' }}</b><br>
+  Churn risk score: {{ result.score }}%
+  <div class="note">The score is a ranking score from a class-weighted model, not an exact probability. The decision uses a threshold tuned to catch most churners.</div>
+</div>
+{% endif %}
+{% if error %}<div class="err">{{ error }}</div>{% endif %}
+{% endblock %}

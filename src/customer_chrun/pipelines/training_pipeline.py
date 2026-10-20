@@ -2,7 +2,7 @@ import sys
 
 from src.customer_chrun.components.data_ingestion import DataIngestion
 from src.customer_chrun.components.data_transformation import DataTransformation
-from src.customer_chrun.components.model_tranier import ModelTranier
+from src.customer_chrun.components.model_tranier import ModelTrainer
 from src.customer_chrun.exception import CustomException
 from src.customer_chrun.logger import logging
 
@@ -20,7 +20,7 @@ class TrainPipeline:
                 DataTransformation().initiate_data_transformation(train_path, test_path)
             )
 
-            metrics = ModelTranier().initiate_model_trainer(
+            metrics = ModelTrainer().initiate_model_trainer(
                 X_train, y_train, X_test, y_test, preprocessor
             )
 
